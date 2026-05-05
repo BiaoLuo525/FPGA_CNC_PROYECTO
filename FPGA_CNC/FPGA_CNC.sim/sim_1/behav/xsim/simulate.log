@@ -1,6 +1,36 @@
 Time resolution is 1 ps
-Note: tb_bresenham_2d: Iniciando pruebas
-Time: 0 ps  Iteration: 0  Process: /tb_bresenham_2d/line__85  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_bresenham_2d.vhd
-Note: tb_bresenham_2d: PASS
-Time: 1065 ns  Iteration: 1  Process: /tb_bresenham_2d/line__85  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_bresenham_2d.vhd
-$finish called at time : 1065 ns : File "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_bresenham_2d.vhd" Line 130
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: tb_fsm_main: Iniciando Bateria
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 1: Trama valida normal
+Time: 100 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 2: Intento de envio con Sync Falso (0x55)
+Time: 385 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 3: Basura antes de trama valida
+Time: 745 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: tb_fsm_main: Iniciando Bateria
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 1: Trama valida normal
+Time: 100 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 2: Intento de envio con Sync Falso (0x55)
+Time: 385 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 3: Basura antes de trama valida
+Time: 745 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 4: Trama con zero pasos (Solo Boli)
+Time: 1075 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 5: Ruido activando motion_done a destiempo
+Time: 1315 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: --> Test 6: Tramas en rafaga (Frame A y Frame B)
+Time: 1535 ns  Iteration: 0  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: ========================================
+Time: 1975 ns  Iteration: 1  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+Note: tb_fsm_main: PASS - La FSM resiste todas las anomalias
+Time: 1975 ns  Iteration: 1  Process: /tb_fsm_main/line__74  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd
+$finish called at time : 1975 ns : File "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd" Line 234
