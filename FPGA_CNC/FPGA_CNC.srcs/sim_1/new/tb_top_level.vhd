@@ -19,136 +19,105 @@
 ----------------------------------------------------------------------------------
 
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use std.env.all;
 
 entity tb_top_level is
--- Entidad vacía para el testbench
-end tb_top_level;
+end entity;
 
 architecture sim of tb_top_level is
+    constant SYS_CLK_FREQ : integer := 1000000; -- Acelerado para simulación
+    constant SYS_BAUD     : integer := 100000;
+    constant CLKS_PER_BIT : integer := SYS_CLK_FREQ / SYS_BAUD;
 
-    -- Declaración del Top Level
-    component top_level
-        Generic (
-            SYS_CLK_FREQ : integer;
-            SYS_BAUD     : integer;
-            SYS_MOT_FREQ : integer
-        );
-        Port ( 
-            clk       : in  STD_LOGIC;
-            reset     : in  STD_LOGIC;
-            rx        : in  STD_LOGIC;
-            tx        : out STD_LOGIC;
-            step_x    : out STD_LOGIC;
-            dir_x     : out STD_LOGIC;
-            step_y    : out STD_LOGIC;
-            dir_y     : out STD_LOGIC;
-            pen_state : out STD_LOGIC
-        );
-    end component;
-
-    -- Señales de estímulo
-    signal clk       : STD_LOGIC := '0';
-    signal reset     : STD_LOGIC := '0';
-    signal rx        : STD_LOGIC := '1'; -- RX en reposo a '1'
+    signal clk       : std_logic := '0';
+    signal reset     : std_logic := '1';
+    signal rx        : std_logic := '1';
+    signal tx        : std_logic;
+    signal step_x    : std_logic;
+    signal dir_x     : std_logic;
+    signal step_y    : std_logic;
+    signal dir_y     : std_logic;
+    signal limit_x   : std_logic := '0';
+    signal limit_y   : std_logic := '0';
+    signal servo_pwm : std_logic;
     
-    -- Señales de salida a observar
-    signal tx        : STD_LOGIC;
-    signal step_x    : STD_LOGIC;
-    signal dir_x     : STD_LOGIC;
-    signal step_y    : STD_LOGIC;
-    signal dir_y     : STD_LOGIC;
-    signal pen_state : STD_LOGIC;
+    signal count_x   : integer := 0;
 
-    -- Tiempos
-    constant clk_period : time := 10 ns;      -- 100 MHz
-    constant bit_period : time := 8680 ns;    -- 115200 baudios
-
-    -- Procedimiento para inyectar bytes por UART (Como si fuéramos Python)
-    procedure UART_WRITE_BYTE (
-        i_data_in       : in  STD_LOGIC_VECTOR(7 downto 0);
-        signal o_serial : out STD_LOGIC) is
+    procedure check(condition : boolean; message : string; variable errors : inout integer) is
     begin
-        o_serial <= '0'; -- Start Bit
-        wait for bit_period;
-        for ii in 0 to 7 loop
-            o_serial <= i_data_in(ii); -- Data Bits
-            wait for bit_period;
-        end loop;
-        o_serial <= '1'; -- Stop Bit
-        wait for bit_period;
-    end UART_WRITE_BYTE;
+        if not condition then
+            report "FAIL: " & message severity error;
+            errors := errors + 1;
+        end if;
+    end procedure;
 
 begin
+    clk <= not clk after 500 ns; -- 1 MHz simulado
 
-    -- Instanciación de nuestro sistema CNC completo
-    uut: top_level 
-    generic map (
-        SYS_CLK_FREQ => 100000000,
-        SYS_BAUD     => 115200,
-        SYS_MOT_FREQ => 50000      -- Los motores darán pasos cada 20 microsegundos
-    )
-    port map (
-        clk       => clk,
-        reset     => reset,
-        rx        => rx,
-        tx        => tx,
-        step_x    => step_x,
-        dir_x     => dir_x,
-        step_y    => step_y,
-        dir_y     => dir_y,
-        pen_state => pen_state
-    );
+    dut : entity work.top_level
+        generic map ( SYS_CLK_FREQ => SYS_CLK_FREQ, SYS_BAUD => SYS_BAUD, SYS_MOT_FREQ => 50000 )
+        port map (
+            clk => clk, reset => reset, rx => rx, tx => tx,
+            step_x => step_x, dir_x => dir_x, step_y => step_y, dir_y => dir_y,
+            limit_x => limit_x, limit_y => limit_y, servo_pwm => servo_pwm
+        );
 
-    -- Generador del reloj maestro (100 MHz)
-    clk_process :process
+    -- Cuenta pasos reales en los pines de salida
+    process(clk)
     begin
-        clk <= '0';
-        wait for clk_period/2;
-        clk <= '1';
-        wait for clk_period/2;
+        if falling_edge(clk) then
+            if reset = '0' and step_x = '1' then
+                count_x <= count_x + 1;
+            end if;
+        end if;
     end process;
 
-    -- Proceso Principal de Pruebas
-    stim_proc: process
-    begin		
-        -- 1. Resetear el sistema al inicio
-        reset <= '1';
-        wait for 200 ns;	
+    process
+        variable errors : integer := 0;
+        
+        procedure uart_send_byte(value : std_logic_vector(7 downto 0)) is
+        begin
+            rx <= '0'; -- Start
+            for i in 1 to CLKS_PER_BIT loop wait until rising_edge(clk); end loop;
+            for bit_index in 0 to 7 loop
+                rx <= value(bit_index);
+                for i in 1 to CLKS_PER_BIT loop wait until rising_edge(clk); end loop;
+            end loop;
+            rx <= '1'; -- Stop
+            for i in 1 to CLKS_PER_BIT loop wait until rising_edge(clk); end loop;
+        end procedure;
+
+    begin
+        report "tb_top_level: Iniciando pruebas de integracion...";
+        wait for 2 us;
         reset <= '0';
-        wait for 1 us;
+        wait for 10 us;
 
-        -- 2. ENVIAR PAQUETE DESDE PYTHON: Trazar línea (X=5 pasos, Y=3 pasos)
-        
-        -- Byte 0: Sincronización
-        UART_WRITE_BYTE(x"AA", rx);
-        
-        -- Byte 1: Direcciones y Estado del Boli (Todo a 0)
-        UART_WRITE_BYTE(x"00", rx);
-        
-        -- Byte 2 y 3: Pasos X (5 pasos -> Hex 0x0005)
-        UART_WRITE_BYTE(x"00", rx);
-        UART_WRITE_BYTE(x"05", rx);
-        
-        -- Byte 4 y 5: Pasos Y (3 pasos -> Hex 0x0003)
-        UART_WRITE_BYTE(x"00", rx);
-        UART_WRITE_BYTE(x"03", rx);
-        
-        -- Byte 6 y 7: Reservados (Para mantener los 8 bytes de la FSM)
-        UART_WRITE_BYTE(x"00", rx);
-        UART_WRITE_BYTE(x"00", rx);
+        -- Enviamos el paquete completo por UART serial
+        -- Paquete: Sync, Config(DirX=1), X=5, Y=0, Res=0
+        uart_send_byte(x"AA");
+        uart_send_byte(x"01");
+        uart_send_byte(x"00");
+        uart_send_byte(x"05");
+        uart_send_byte(x"00");
+        uart_send_byte(x"00");
+        uart_send_byte(x"00");
+        uart_send_byte(x"00");
 
-        -- 3. Ahora esperamos a que el hardware haga su trabajo
-        -- Enviar 8 bytes por UART tarda unos 700 us.
-        -- Dar 5 pasos a 50kHz tarda unos 100 us.
-        -- Enviar la 'K' de vuelta tarda otros 86 us.
-        -- Total esperado: ~900 us. Daremos margen suficiente.
-        
-        wait for 2 ms; -- (2 milisegundos)
+        -- Esperamos a que la FSM procese y el motor dé los 5 pasos
+        wait for 3 ms;
 
-        assert false report "Simulacion Completa. Revisa las ondas de step_x y step_y" severity note;
-        wait;
+        check(count_x = 5, "TopLevel: No dio los 5 pasos ordenados", errors);
+        check(dir_x = '1', "TopLevel: Direccion X incorrecta", errors);
+
+        if errors = 0 then
+            report "tb_top_level: PASS TODO CORRECTO";
+        else
+            report "tb_top_level: FAIL con " & integer'image(errors) & " errores" severity failure;
+        end if;
+        finish;
     end process;
-
-end sim;
+end architecture;

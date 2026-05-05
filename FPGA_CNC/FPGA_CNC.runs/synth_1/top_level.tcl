@@ -74,6 +74,7 @@ read_vhdl -library xil_defaultlib {
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd}
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd}
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd}
+  {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd}
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd}
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd}
   {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd}
@@ -91,6 +92,8 @@ read_xdc {{C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPG
 set_property used_in_implementation false [get_files {{C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc}}]
 
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/utils_1/imports/synth_1/top_level.dcp}
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

@@ -29,6 +29,7 @@ entity bresenham_2d is
         reset        : in  STD_LOGIC;
         tick_motor   : in  STD_LOGIC;        -- Pulso lento que viene del divisor de reloj
         start_motion : in  STD_LOGIC;        -- Orden de arranque que viene del FSM_Main
+        abort_motion : in  STD_LOGIC;        -- NUEVO: Freno de emergencia (Finales de carrera)
         
         -- Cantidad de pasos solicitada (Solo X e Y)
         steps_x      : in  STD_LOGIC_VECTOR(15 downto 0);
@@ -86,29 +87,38 @@ begin
 
                 -- ESTADO 2: Configurar las matemáticas (Buscamos el eje dominante 2D)
                 when s_SETUP =>
-                    if r_steps_x > r_steps_y then
-                        v_max := r_steps_x;
-                    else
-                        v_max := r_steps_y;
-                    end if;
-                    
-                    r_max_steps <= v_max;
-                    
-                    -- Si no hay movimiento, abortamos
-                    if v_max = 0 then
+                    -- Si detectamos una colisión incluso antes de arrancar, abortamos
+                    if abort_motion = '1' then
                         r_State <= s_FINISH;
                     else
-                        -- Inicializamos los acumuladores al 50% para un redondeo perfecto
-                        err_x <= v_max / 2;
-                        err_y <= v_max / 2;
+                        if r_steps_x > r_steps_y then
+                            v_max := r_steps_x;
+                        else
+                            v_max := r_steps_y;
+                        end if;
                         
-                        r_step_count <= 0;
-                        r_State      <= s_RUN;
+                        r_max_steps <= v_max;
+                        
+                        -- Si no hay movimiento, pasamos directo al final
+                        if v_max = 0 then
+                            r_State <= s_FINISH;
+                        else
+                            -- Inicializamos los acumuladores al 50% para un redondeo perfecto
+                            err_x <= v_max / 2;
+                            err_y <= v_max / 2;
+                            
+                            r_step_count <= 0;
+                            r_State      <= s_RUN;
+                        end if;
                     end if;
 
                 -- ESTADO 3: Ejecutar el movimiento
                 when s_RUN =>
-                    if tick_motor = '1' then
+                    -- FRENO DE EMERGENCIA: Si un final de carrera se activa, paramos inmediatamente
+                    if abort_motion = '1' then
+                        r_State <= s_FINISH;
+                        
+                    elsif tick_motor = '1' then
                         
                         -- Cálculo Eje X
                         if (err_x + r_steps_x) >= r_max_steps then

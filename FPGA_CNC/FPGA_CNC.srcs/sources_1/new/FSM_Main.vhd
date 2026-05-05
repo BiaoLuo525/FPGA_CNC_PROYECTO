@@ -27,18 +27,19 @@ entity fsm_main is
         clk          : in  STD_LOGIC;
         reset        : in  STD_LOGIC;
 
-        -- Interfaz con el Receptor UART
+        -- Interfaz con el Receptor UART (Oídos)
         rx_data      : in  STD_LOGIC_VECTOR(7 downto 0);
         rx_ready     : in  STD_LOGIC;
 
-        -- Interfaz con el Transmisor UART
+        -- Interfaz con el Transmisor UART (Boca)
         tx_data      : out STD_LOGIC_VECTOR(7 downto 0);
         tx_start     : out STD_LOGIC;
 
-        -- Interfaz con el Generador de Movimiento (Bresenham 2D) y el Bolígrafo
+        -- Interfaz con el Generador de Movimiento (Bresenham) y el Bolígrafo (PWM)
         dir_x        : out STD_LOGIC;
         dir_y        : out STD_LOGIC;
-        pen_state    : out STD_LOGIC;        -- 0 = Bolígrafo Arriba, 1 = Bolígrafo Abajo
+        pen_state    : out STD_LOGIC;        -- 0 = Boli Arriba, 1 = Boli Abajo
+        pen_update   : out STD_LOGIC;        -- Pulso para avisar al módulo PWM de un cambio
         steps_x      : out STD_LOGIC_VECTOR(15 downto 0);
         steps_y      : out STD_LOGIC_VECTOR(15 downto 0);
         start_motion : out STD_LOGIC;
@@ -48,12 +49,15 @@ end fsm_main;
 
 architecture Behavioral of fsm_main is
 
+    -- Definición de los estados del Cerebro
     type t_State is (s_WAIT_SYNC, s_RECEIVE_PAYLOAD, s_START_MOTION, s_WAIT_MOTION, s_SEND_ACK);
     signal r_State : t_State := s_WAIT_SYNC;
 
+    -- Búfer para guardar los 7 bytes de datos útiles (el de Sync no se guarda)
     type t_Buffer is array (1 to 7) of STD_LOGIC_VECTOR(7 downto 0);
     signal r_rx_buffer : t_Buffer := (others => (others => '0'));
     
+    -- Índice para saber qué byte estamos recibiendo
     signal r_byte_index : integer range 1 to 7 := 1;
 
 begin
@@ -67,6 +71,7 @@ begin
             r_byte_index <= 1;
             tx_start     <= '0';
             start_motion <= '0';
+            pen_update   <= '0';
             
             dir_x     <= '0';
             dir_y     <= '0';
@@ -77,8 +82,10 @@ begin
             
         elsif rising_edge(clk) then
             
+            -- Por defecto, estos pulsos duran solo 1 ciclo de reloj
             start_motion <= '0';
             tx_start     <= '0';
+            pen_update   <= '0';
 
             case r_State is
                 
@@ -107,7 +114,10 @@ begin
                     dir_y     <= r_rx_buffer(1)(1);
                     pen_state <= r_rx_buffer(1)(2); 
                     
-                    -- Concatenar Bytes para X e Y
+                    -- Disparamos la actualización del servomotor
+                    pen_update <= '1';
+                    
+                    -- Concatenar Bytes Altos y Bajos para formar los números de 16 bits de X e Y
                     v_steps_x := r_rx_buffer(2) & r_rx_buffer(3);
                     v_steps_y := r_rx_buffer(4) & r_rx_buffer(5);
                     
@@ -115,25 +125,25 @@ begin
                     steps_y <= v_steps_y;
                     
                     -- Lógica inteligente del Plotter:
-                    -- Si Python dice que nos movamos 0 pasos, solo quería cambiar el bolígrafo.
+                    -- Si Python dice que nos movamos 0 pasos, es que solo quería subir/bajar el bolígrafo.
                     if v_steps_x = x"0000" and v_steps_y = x"0000" then
                         r_State <= s_SEND_ACK; -- Saltamos directamente a la confirmación
                     else
-                        start_motion <= '1';   -- Arrancamos los motores
+                        start_motion <= '1';   -- Arrancamos los motores X e Y
                         r_State      <= s_WAIT_MOTION;
                     end if;
 
-                -- ESTADO 4: Esperar a Bresenham
+                -- ESTADO 4: Esperar a que el módulo de Bresenham termine su trabajo
                 when s_WAIT_MOTION =>
                     if motion_done = '1' then
                         r_State <= s_SEND_ACK;
                     end if;
 
-                -- ESTADO 5: Enviar 'K' (0x4B) a Python
+                -- ESTADO 5: Enviar confirmación ('K' = 0x4B) a Python
                 when s_SEND_ACK =>
                     tx_data  <= x"4B"; 
                     tx_start <= '1';   
-                    r_State  <= s_WAIT_SYNC; 
+                    r_State  <= s_WAIT_SYNC; -- Volvemos a esperar la siguiente instrucción
                     
                 when others =>
                     r_State <= s_WAIT_SYNC;

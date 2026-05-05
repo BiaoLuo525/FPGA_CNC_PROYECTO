@@ -179,14 +179,14 @@ set_property PACKAGE_PIN A16 [get_ports dir_y]
 
 ##Pmod Header JC
 ##Sch name = JC1
-set_property PACKAGE_PIN K17 [get_ports pen_state]					
-	set_property IOSTANDARD LVCMOS33 [get_ports pen_state]
+set_property PACKAGE_PIN K17 [get_ports servo_pwm]					
+	set_property IOSTANDARD LVCMOS33 [get_ports servo_pwm]
 ##Sch name = JC2
-#set_property PACKAGE_PIN M18 [get_ports {JC[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JC[1]}]
+set_property PACKAGE_PIN M18 [get_ports limit_x]					
+	set_property IOSTANDARD LVCMOS33 [get_ports limit_x]
 ##Sch name = JC3
-#set_property PACKAGE_PIN N17 [get_ports {JC[2]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JC[2]}]
+set_property PACKAGE_PIN N17 [get_ports limit_y]					
+	set_property IOSTANDARD LVCMOS33 [get_ports limit_y]
 ##Sch name = JC4
 #set_property PACKAGE_PIN P18 [get_ports {JC[3]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JC[3]}]
