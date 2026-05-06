@@ -1,2 +1,2 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_fsm_main.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'tb_fsm_main'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_top_level'
