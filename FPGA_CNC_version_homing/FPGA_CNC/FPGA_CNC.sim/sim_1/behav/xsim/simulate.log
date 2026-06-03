@@ -1,0 +1,28 @@
+Time resolution is 1 ps
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: tb_top_level: Integracion con Checksum
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: tb_top_level: Integracion con Checksum
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: ========================================
+Time: 0 ps  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: --> Test 1: Diagonal X=5, Y=3
+Time: 12 us  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: --> Test 2: Sync Falso
+Time: 1152500 ns  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: --> Test 3: Interrupcion por Final de Carrera
+Time: 2254500 ns  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: --> Test 4: Verificacion fisica del Servo PWM y ACK
+Time: 3357500 ns  Iteration: 1  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: --> Test 5: Multiples tramas consecutivas
+Time: 41052500 ns  Iteration: 0  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: ========================================
+Time: 43142500 ns  Iteration: 1  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+Note: tb_top_level: PASS - LA INTEGRACION ES UN EXITO ABSOLUTO
+Time: 43142500 ns  Iteration: 1  Process: /tb_top_level/line__113  File: C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd
+$finish called at time : 43142500 ns : File "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sim_1/new/tb_top_level.vhd" Line 237
