@@ -1,7 +1,0 @@
-Running: xsim.dir/tb_bresenham_2d_behav/xsimk.exe -simmode gui -wdb tb_bresenham_2d_behav.wdb -simrunnum 0 -socket 51928
-Design successfully loaded
-Design Loading Memory Usage: 28720 KB (Peak: 28720 KB)
-Design Loading CPU Usage: 531 ms
-Simulation completed
-Simulation Memory Usage: 29640 KB (Peak: 29640 KB)
-Simulation CPU Usage: 577 ms

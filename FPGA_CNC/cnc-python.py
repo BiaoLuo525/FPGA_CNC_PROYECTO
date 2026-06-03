@@ -6,7 +6,7 @@ import os
 # ==========================================
 # CONFIGURACIÓN DE LA MÁQUINA (¡Ajústalo!)
 # ==========================================
-PUERTO_SERIAL = 'COM10'  # Cambia esto por tu puerto real (Ej: 'COM4', '/dev/ttyUSB0')
+PUERTO_SERIAL = 'COM3'  # Cambia esto por tu puerto real (Ej: 'COM4', '/dev/ttyUSB0')
 BAUDIOS = 115200
 
 # Cálculo de Pasos por Milímetro:
@@ -123,7 +123,7 @@ def procesar_gcode(archivo):
         return
 
     print(f"Empezando trabajo: {archivo}")
-    with open(archivo, 'r', encoding='utf-8') as f:
+    with open(archivo, 'r') as f:
         lineas = f.readlines()
         
     for linea in lineas:
@@ -158,9 +158,17 @@ def procesar_gcode(archivo):
 if __name__ == '__main__':
     try:
         # TEST BÁSICO (Descomenta esto para probar tu máquina por primera vez)
+        print("Haciendo test de un cuadrado de 20x20 mm...")
+        mover_a(0, 0, False)   # Origen, boli arriba
+        mover_a(20, 0, True)   # Dibuja linea derecha
+        mover_a(20, 20, True)  # Dibuja linea arriba
+        mover_a(0, 20, True)   # Dibuja linea izquierda
+        mover_a(0, 0, True)    # Dibuja linea abajo
+        mover_a(0, 0, False)   # Levanta boli
+        print("Test terminado.")
         
         # CUANDO QUIERAS DIBUJAR UN ARCHIVO REAL, DESCOMENTA ESTO:
-        procesar_gcode("ejeXY_prueba.gcode")
+        # procesar_gcode("mi_dibujo.gcode")
         
     except KeyboardInterrupt:
         print("\nTrabajo abortado por el usuario (Ctrl+C).")

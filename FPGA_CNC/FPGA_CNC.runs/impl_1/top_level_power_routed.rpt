@@ -1,8 +1,8 @@
-Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version     : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date             : Wed Jun  3 18:45:25 2026
-| Host             : funda02 running 64-bit major release  (build 9200)
+| Tool Version     : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date             : Tue May  5 20:58:29 2026
+| Host             : DESKTOP-V1QRO9U running 64-bit major release  (build 9200)
 | Command          : report_power -file top_level_power_routed.rpt -pb top_level_power_summary_routed.pb -rpx top_level_power_routed.rpx
 | Design           : top_level
 | Device           : xc7a35ticpg236-1L
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.066        |
+| Total On-Chip Power (W)  | 0.065        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.004        |
+| Dynamic (W)              | 0.003        |
 | Device Static (W)        | 0.062        |
 | Effective TJA (C/W)      | 5.0          |
 | Max Ambient (C)          | 99.7         |
@@ -52,16 +52,16 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.002 |        3 |       --- |             --- |
-| Slice Logic    |     0.001 |      904 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      358 |     20800 |            1.72 |
-|   CARRY4       |    <0.001 |       50 |      8150 |            0.61 |
-|   Register     |    <0.001 |      340 |     41600 |            0.82 |
-|   Others       |     0.000 |       13 |       --- |             --- |
-| Signals        |    <0.001 |      690 |       --- |             --- |
+| Clocks         |     0.001 |        3 |       --- |             --- |
+| Slice Logic    |    <0.001 |      713 |       --- |             --- |
+|   LUT as Logic |    <0.001 |      278 |     20800 |            1.34 |
+|   CARRY4       |    <0.001 |       47 |      8150 |            0.58 |
+|   Register     |    <0.001 |      269 |     41600 |            0.65 |
+|   Others       |     0.000 |       10 |       --- |             --- |
+| Signals        |    <0.001 |      523 |       --- |             --- |
 | I/O            |    <0.001 |       11 |       106 |           10.38 |
 | Static Power   |     0.062 |          |           |                 |
-| Total          |     0.066 |          |           |                 |
+| Total          |     0.065 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -71,7 +71,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       0.950 |     0.010 |       0.004 |      0.006 |       NA    | Unspecified | NA         |
+| Vccint    |       0.950 |     0.009 |       0.003 |      0.006 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.011 |       0.000 |      0.011 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -140,7 +140,7 @@ Table of Contents
 +------------------+-----------+
 | Name             | Power (W) |
 +------------------+-----------+
-| top_level        |     0.004 |
+| top_level        |     0.003 |
 |   Inst_Bresenham |     0.002 |
 +------------------+-----------+
 
