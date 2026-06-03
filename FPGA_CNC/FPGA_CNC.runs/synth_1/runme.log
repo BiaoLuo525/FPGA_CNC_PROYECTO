@@ -4,17 +4,17 @@
 
 
 
-****** Vivado v2024.2 (64-bit)
-  **** SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
-  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
-  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-  **** Start of session at: Tue May  5 20:57:08 2026
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Wed Jun  3 18:44:17 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
-    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 
 source top_level.tcl -notrace
-Command: read_checkpoint -auto_incremental -incremental {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/utils_1/imports/synth_1/top_level.dcp}
-INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/utils_1/imports/synth_1/top_level.dcp for incremental synthesis
+Command: read_checkpoint -auto_incremental -incremental C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/utils_1/imports/synth_1/top_level.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/utils_1/imports/synth_1/top_level.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
 Command: synth_design -top top_level -part xc7a35ticpg236-1L
 Starting synth_design
@@ -25,105 +25,116 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 10832
+INFO: [Synth 8-7075] Helper process launched with PID 15288
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1029.156 ; gain = 468.168
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 1264.945 ; gain = 543.461
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'top_level' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:53]
+INFO: [Synth 8-638] synthesizing module 'top_level' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:29]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-	Parameter MOTOR_FREQ bound to: 50000 - type: integer 
-INFO: [Synth 8-3491] module 'divisor_reloj' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:26' bound to instance 'Inst_Divisor' of component 'divisor_reloj' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:134]
-INFO: [Synth 8-638] synthesizing module 'divisor_reloj' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:40]
+	Parameter MOTOR_FREQ bound to: 1000 - type: integer 
+INFO: [Synth 8-3491] module 'divisor_reloj' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:26' bound to instance 'Inst_Divisor' of component 'divisor_reloj' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:105]
+INFO: [Synth 8-638] synthesizing module 'divisor_reloj' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:40]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-	Parameter MOTOR_FREQ bound to: 50000 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'divisor_reloj' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:40]
+	Parameter MOTOR_FREQ bound to: 1000 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'divisor_reloj' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/divisor_reloj.vhd:40]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-INFO: [Synth 8-3491] module 'uart_rx' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:26' bound to instance 'Inst_UART_RX' of component 'uart_rx' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:138]
-INFO: [Synth 8-638] synthesizing module 'uart_rx' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:40]
+INFO: [Synth 8-3491] module 'uart_rx' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:26' bound to instance 'Inst_UART_RX' of component 'uart_rx' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:109]
+INFO: [Synth 8-638] synthesizing module 'uart_rx' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:40]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-INFO: [Synth 8-226] default block is never used [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:66]
-INFO: [Synth 8-256] done synthesizing module 'uart_rx' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:40]
+INFO: [Synth 8-226] default block is never used [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:66]
+INFO: [Synth 8-256] done synthesizing module 'uart_rx' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_rx.vhd:40]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-INFO: [Synth 8-3491] module 'uart_tx' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:24' bound to instance 'Inst_UART_TX' of component 'uart_tx' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:142]
-INFO: [Synth 8-638] synthesizing module 'uart_tx' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:44]
+INFO: [Synth 8-3491] module 'uart_tx' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:24' bound to instance 'Inst_UART_TX' of component 'uart_tx' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:113]
+INFO: [Synth 8-638] synthesizing module 'uart_tx' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:44]
 	Parameter CLK_FREQ bound to: 100000000 - type: integer 
 	Parameter BAUD_RATE bound to: 115200 - type: integer 
-INFO: [Synth 8-226] default block is never used [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:77]
-INFO: [Synth 8-256] done synthesizing module 'uart_tx' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:44]
-INFO: [Synth 8-3491] module 'fsm_main' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:25' bound to instance 'Inst_FSM_Main' of component 'fsm_main' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:147]
-INFO: [Synth 8-638] synthesizing module 'fsm_main' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:50]
-INFO: [Synth 8-256] done synthesizing module 'fsm_main' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:50]
-INFO: [Synth 8-3491] module 'bresenham_2d' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:26' bound to instance 'Inst_Bresenham' of component 'bresenham_2d' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:158]
-INFO: [Synth 8-638] synthesizing module 'bresenham_2d' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:47]
-INFO: [Synth 8-256] done synthesizing module 'bresenham_2d' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:47]
+INFO: [Synth 8-226] default block is never used [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:77]
+INFO: [Synth 8-256] done synthesizing module 'uart_tx' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/uart_tx.vhd:44]
+INFO: [Synth 8-3491] module 'fsm_main' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:25' bound to instance 'Inst_FSM_Main' of component 'fsm_main' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:117]
+INFO: [Synth 8-638] synthesizing module 'fsm_main' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:50]
+INFO: [Synth 8-256] done synthesizing module 'fsm_main' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:50]
+INFO: [Synth 8-3491] module 'bresenham_2d' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:26' bound to instance 'Inst_Bresenham' of component 'bresenham_2d' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:128]
+INFO: [Synth 8-638] synthesizing module 'bresenham_2d' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'bresenham_2d' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/bresenham_3d.vhd:47]
 	Parameter CLK_FREQ_HZ bound to: 100000000 - type: integer 
 	Parameter PWM_HZ bound to: 50 - type: integer 
 	Parameter PULSE_UP_US bound to: 1000 - type: integer 
 	Parameter PULSE_DOWN_US bound to: 2000 - type: integer 
-INFO: [Synth 8-3491] module 'pen_controller' declared at 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:5' bound to instance 'Inst_Pen_Controller' of component 'pen_controller' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:167]
-INFO: [Synth 8-638] synthesizing module 'pen_controller' [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:22]
+INFO: [Synth 8-3491] module 'pen_controller' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:5' bound to instance 'Inst_Pen_Controller' of component 'pen_controller' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:137]
+INFO: [Synth 8-638] synthesizing module 'pen_controller' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:22]
 	Parameter CLK_FREQ_HZ bound to: 100000000 - type: integer 
 	Parameter PWM_HZ bound to: 50 - type: integer 
 	Parameter PULSE_UP_US bound to: 1000 - type: integer 
 	Parameter PULSE_DOWN_US bound to: 2000 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'pen_controller' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:22]
-INFO: [Synth 8-256] done synthesizing module 'top_level' (0#1) [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:53]
-WARNING: [Synth 8-6014] Unused sequential element r_rx_buffer_reg[6] was removed.  [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:102]
-WARNING: [Synth 8-6014] Unused sequential element r_rx_buffer_reg[7] was removed.  [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:102]
+INFO: [Synth 8-256] done synthesizing module 'pen_controller' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/imports/Proyecto FPGA/pen_controller.vhd:22]
+	Parameter CLK_FREQ_HZ bound to: 100000000 - type: integer 
+	Parameter STEP_PULSE_US bound to: 5 - type: integer 
+INFO: [Synth 8-3491] module 'tb6600_axis_driver' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/tb6600_axis_driver.vhd:4' bound to instance 'Inst_Driver_X' of component 'tb6600_axis_driver' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:147]
+INFO: [Synth 8-638] synthesizing module 'tb6600_axis_driver' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/tb6600_axis_driver.vhd:29]
+	Parameter CLK_FREQ_HZ bound to: 100000000 - type: integer 
+	Parameter STEP_PULSE_US bound to: 5 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'tb6600_axis_driver' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/tb6600_axis_driver.vhd:29]
+	Parameter CLK_FREQ_HZ bound to: 100000000 - type: integer 
+	Parameter STEP_PULSE_US bound to: 5 - type: integer 
+INFO: [Synth 8-3491] module 'tb6600_axis_driver' declared at 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/tb6600_axis_driver.vhd:4' bound to instance 'Inst_Driver_Y' of component 'tb6600_axis_driver' [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:157]
+INFO: [Synth 8-256] done synthesizing module 'top_level' (0#1) [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/top_level.vhd:29]
+WARNING: [Synth 8-6014] Unused sequential element r_rx_buffer_reg[0] was removed.  [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:79]
+WARNING: [Synth 8-6014] Unused sequential element r_rx_buffer_reg[6] was removed.  [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:79]
+WARNING: [Synth 8-6014] Unused sequential element r_rx_buffer_reg[7] was removed.  [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:79]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1139.516 ; gain = 578.527
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:05 . Memory (MB): peak = 1389.113 ; gain = 667.629
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1139.516 ; gain = 578.527
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:05 . Memory (MB): peak = 1389.113 ; gain = 667.629
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1139.516 ; gain = 578.527
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:05 . Memory (MB): peak = 1389.113 ; gain = 667.629
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1139.516 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.010 . Memory (MB): peak = 1389.113 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]
-Finished Parsing XDC File [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_level_propImpl.xdc].
+Parsing XDC File [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]
+Finished Parsing XDC File [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_level_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/top_level_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1230.332 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1473.465 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1230.332 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1473.465 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1230.332 ; gain = 669.344
+Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:10 . Memory (MB): peak = 1473.465 ; gain = 751.980
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35ticpg236-1L
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1230.332 ; gain = 669.344
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:10 . Memory (MB): peak = 1473.465 ; gain = 751.980
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1230.332 ; gain = 669.344
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:04 ; elapsed = 00:00:10 . Memory (MB): peak = 1473.465 ; gain = 751.980
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'r_SM_Main_reg' in module 'uart_tx'
-WARNING: [Synth 8-3936] Found unconnected internal register 'r_rx_buffer_reg[1]' and it is trimmed from '8' to '3' bits. [C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:102]
-INFO: [Synth 8-802] inferred FSM for state register 'r_State_reg' in module 'fsm_main'
+WARNING: [Synth 8-3936] Found unconnected internal register 'r_rx_buffer_reg[1]' and it is trimmed from '8' to '3' bits. [C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/sources_1/new/FSM_Main.vhd:79]
+INFO: [Synth 8-802] inferred FSM for state register 'r_state_reg' in module 'fsm_main'
 INFO: [Synth 8-802] inferred FSM for state register 'r_State_reg' in module 'bresenham_2d'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
@@ -137,13 +148,13 @@ INFO: [Synth 8-3354] encoded FSM with state register 'r_SM_Main_reg' using encod
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-             s_wait_sync |                              000 |                              000
-       s_receive_payload |                              001 |                              001
-          s_start_motion |                              010 |                              010
-           s_wait_motion |                              011 |                              011
-              s_send_ack |                              100 |                              100
+                    idle |                              000 |                              000
+                 receive |                              001 |                              001
+               check_crc |                              010 |                              010
+                 execute |                              011 |                              011
+                    done |                              100 |                              100
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'r_State_reg' using encoding 'sequential' in module 'fsm_main'
+INFO: [Synth 8-3354] encoded FSM with state register 'r_state_reg' using encoding 'sequential' in module 'fsm_main'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -154,48 +165,57 @@ INFO: [Synth 8-3354] encoded FSM with state register 'r_State_reg' using encodin
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'r_State_reg' using encoding 'sequential' in module 'bresenham_2d'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1230.332 ; gain = 669.344
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:10 . Memory (MB): peak = 1473.465 ; gain = 751.980
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
+	   2 Input   21 Bit       Adders := 1     
 	   2 Input   18 Bit       Adders := 2     
-	   2 Input   17 Bit       Adders := 1     
+	   2 Input   17 Bit       Adders := 2     
 	   4 Input   17 Bit       Adders := 2     
 	   2 Input   16 Bit       Adders := 1     
-	   2 Input   11 Bit       Adders := 1     
 	   2 Input   10 Bit       Adders := 3     
-	   2 Input    3 Bit       Adders := 3     
+	   2 Input    9 Bit       Adders := 4     
+	   2 Input    4 Bit       Adders := 1     
+	   2 Input    3 Bit       Adders := 2     
++---XORs : 
+	   2 Input      8 Bit         XORs := 1     
 +---Registers : 
+	               32 Bit    Registers := 2     
 	               21 Bit    Registers := 1     
-	               17 Bit    Registers := 2     
+	               17 Bit    Registers := 3     
 	               16 Bit    Registers := 6     
-	               11 Bit    Registers := 1     
 	               10 Bit    Registers := 3     
-	                8 Bit    Registers := 8     
-	                3 Bit    Registers := 4     
-	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 17    
+	                9 Bit    Registers := 4     
+	                8 Bit    Registers := 10    
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 3     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 30    
 +---Muxes : 
-	   3 Input   21 Bit        Muxes := 1     
-	   2 Input   18 Bit        Muxes := 1     
+	   2 Input   19 Bit        Muxes := 1     
 	   2 Input   17 Bit        Muxes := 2     
 	   4 Input   17 Bit        Muxes := 2     
 	   2 Input   16 Bit        Muxes := 1     
 	   4 Input   16 Bit        Muxes := 1     
 	   4 Input   10 Bit        Muxes := 2     
+	   2 Input    9 Bit        Muxes := 16    
+	   4 Input    9 Bit        Muxes := 4     
 	   2 Input    8 Bit        Muxes := 1     
 	   4 Input    8 Bit        Muxes := 1     
+	   5 Input    8 Bit        Muxes := 1     
+	   5 Input    4 Bit        Muxes := 1     
 	   4 Input    3 Bit        Muxes := 2     
 	   2 Input    3 Bit        Muxes := 3     
-	   5 Input    3 Bit        Muxes := 2     
-	   2 Input    2 Bit        Muxes := 6     
-	   4 Input    2 Bit        Muxes := 3     
-	   4 Input    1 Bit        Muxes := 18    
-	   2 Input    1 Bit        Muxes := 9     
-	   5 Input    1 Bit        Muxes := 10    
+	   5 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 12    
+	   4 Input    2 Bit        Muxes := 5     
+	   4 Input    1 Bit        Muxes := 30    
+	   2 Input    1 Bit        Muxes := 35    
+	   5 Input    1 Bit        Muxes := 14    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -211,27 +231,26 @@ Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
-WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 1230.332 ; gain = 669.344
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:13 . Memory (MB): peak = 1473.465 ; gain = 751.980
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1323.820 ; gain = 762.832
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:16 . Memory (MB): peak = 1586.430 ; gain = 864.945
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:19 . Memory (MB): peak = 1366.480 ; gain = 805.492
+Finished Timing Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:17 . Memory (MB): peak = 1632.398 ; gain = 910.914
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1367.973 ; gain = 806.984
+Finished Technology Mapping : Time (s): cpu = 00:00:07 ; elapsed = 00:00:17 . Memory (MB): peak = 1636.641 ; gain = 915.156
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -249,37 +268,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished IO Insertion : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -296,41 +315,42 @@ Report Cell Usage:
 |      |Cell   |Count |
 +------+-------+------+
 |1     |BUFG   |     1|
-|2     |CARRY4 |    47|
+|2     |CARRY4 |    50|
 |3     |LUT1   |    19|
-|4     |LUT2   |    54|
-|5     |LUT3   |    38|
-|6     |LUT4   |   136|
-|7     |LUT5   |    89|
-|8     |LUT6   |    51|
-|9     |FDCE   |   101|
-|10    |FDPE   |     2|
-|11    |FDRE   |   166|
-|12    |IBUF   |     5|
-|13    |OBUF   |     6|
+|4     |LUT2   |    96|
+|5     |LUT3   |    62|
+|6     |LUT4   |   132|
+|7     |LUT5   |   109|
+|8     |LUT6   |    84|
+|9     |FDCE   |   141|
+|10    |FDPE   |     3|
+|11    |FDRE   |   192|
+|12    |FDSE   |     4|
+|13    |IBUF   |     5|
+|14    |OBUF   |     6|
 +------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:20 . Memory (MB): peak = 1557.383 ; gain = 905.578
-Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1557.383 ; gain = 996.395
+Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:06 ; elapsed = 00:00:19 . Memory (MB): peak = 1856.891 ; gain = 1051.055
+Synthesis Optimization Complete : Time (s): cpu = 00:00:08 ; elapsed = 00:00:20 . Memory (MB): peak = 1856.891 ; gain = 1135.406
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1557.383 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 47 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1866.051 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 50 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1557.383 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1869.754 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: 569de453
+Synth Design complete | Checksum: 8856c79
 INFO: [Common 17-83] Releasing license: Synthesis
-49 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
+53 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:22 ; elapsed = 00:00:34 . Memory (MB): peak = 1557.383 ; gain = 1186.906
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1557.383 ; gain = 0.000
-INFO: [Common 17-1381] The checkpoint 'C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/synth_1/top_level.dcp' has been generated.
+synth_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:24 . Memory (MB): peak = 1869.754 ; gain = 1337.000
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1869.754 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/synth_1/top_level.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file top_level_utilization_synth.rpt -pb top_level_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Tue May  5 20:57:45 2026...
+INFO: [Common 17-206] Exiting Vivado at Wed Jun  3 18:44:47 2026...

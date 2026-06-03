@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/impl_1/top_level.tcl"
+  variable script "C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/impl_1/top_level.tcl"
   variable category "vivado_impl"
 }
 
@@ -104,23 +104,25 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param chipscope.maxJobs 4
-  set_param runs.launchOptions { -jobs 8  }
+  set_param general.usePosixSpawnForFork 1
+  set_param chipscope.maxJobs 6
+  set_param xicom.use_bs_reader 1
+  set_param runs.launchOptions { -jobs 12  }
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35ticpg236-1L
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.cache/wt} [current_project]
-  set_property parent.project_path {C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.xpr} [current_project]
-  set_property ip_output_repo {{C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.cache/ip}} [current_project]
+  set_property webtalk.parent_dir C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.cache/wt [current_project]
+  set_property parent.project_path C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.xpr [current_project]
+  set_property ip_output_repo C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet {{C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/synth_1/top_level.dcp}}
+  add_files -quiet C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.runs/synth_1/top_level.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc {{C:/Users/FateSerlen/Documents/PHR/Proyecto FPGA/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc}}
+  read_xdc C:/Users/user2/Desktop/FPGA_CNC_PROYECTO/FPGA_CNC/FPGA_CNC.srcs/constrs_1/imports/Tutorial/Basys3_Master.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }
@@ -189,7 +191,9 @@ OPTRACE "implement_debug_core" START { }
 OPTRACE "implement_debug_core" END { }
   } 
 OPTRACE "place_design" START { }
+  set_param project.isImplRun true
   place_design 
+  set_param project.isImplRun false
 OPTRACE "place_design" END { }
 OPTRACE "read constraints: place_design_post" START { }
 OPTRACE "read constraints: place_design_post" END { }
@@ -276,4 +280,34 @@ OPTRACE "route_design write_checkpoint" END { }
 
 OPTRACE "route_design misc" END { }
 OPTRACE "Phase: Route Design" END { }
+OPTRACE "Phase: Write Bitstream" START { ROLLUP_AUTO }
+OPTRACE "write_bitstream setup" START { }
+start_step write_bitstream
+set ACTIVE_STEP write_bitstream
+set rc [catch {
+  create_msg_db write_bitstream.pb
+OPTRACE "read constraints: write_bitstream" START { }
+OPTRACE "read constraints: write_bitstream" END { }
+  catch { write_mem_info -force -no_partial_mmi top_level.mmi }
+OPTRACE "write_bitstream setup" END { }
+OPTRACE "write_bitstream" START { }
+  write_bitstream -force top_level.bit 
+OPTRACE "write_bitstream" END { }
+OPTRACE "write_bitstream misc" START { }
+OPTRACE "read constraints: write_bitstream_post" START { }
+OPTRACE "read constraints: write_bitstream_post" END { }
+  catch {write_debug_probes -quiet -force top_level}
+  catch {file copy -force top_level.ltx debug_nets.ltx}
+  close_msg_db -file write_bitstream.pb
+} RESULT]
+if {$rc} {
+  step_failed write_bitstream
+  return -code error $RESULT
+} else {
+  end_step write_bitstream
+  unset ACTIVE_STEP 
+}
+
+OPTRACE "write_bitstream misc" END { }
+OPTRACE "Phase: Write Bitstream" END { }
 OPTRACE "impl_1" END { }
