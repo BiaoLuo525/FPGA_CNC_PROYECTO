@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_pen_controller_behav/xsimk.exe -simmode gui -wdb tb_pen_controller_behav.wdb -simrunnum 0 -socket 64032
+Design successfully loaded
+Design Loading Memory Usage: 28668 KB (Peak: 28668 KB)
+Design Loading CPU Usage: 499 ms
+Simulation completed
+Simulation Memory Usage: 30604 KB (Peak: 30604 KB)
+Simulation CPU Usage: 577 ms
