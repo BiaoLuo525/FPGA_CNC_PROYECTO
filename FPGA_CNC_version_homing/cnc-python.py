@@ -4,338 +4,234 @@ import math
 import os
 
 # ==========================================
-# CONFIGURACIÓN DE LA MÁQUINA (¡Ajústalo!)
+# CONFIGURACIÓN DE LA MÁQUINA
 # ==========================================
-PUERTO_SERIAL = 'COM10'
+PUERTO_SERIAL = 'COM8'  # Tu puerto serial (Cámbialo si Windows le asigna otro)
 BAUDIOS = 115200
-
-# Pasos por milímetro:
-# Motor 1.8º (200p/v) + TB6600 a 1/4 micropaso (800p/v) + polea GT2 20 dientes (40 mm/v)
-# -> 800 / 40 = 20 pasos/mm
-PASOS_POR_MM = 20.0
+PASOS_POR_MM = 20.0     # Resolución de tu mecánica (Ajustable según tus poleas)
 
 # ==========================================
-# PARÁMETROS DE HOMING
-# ==========================================
-# Distancia máxima de búsqueda del home (en mm).
-# La máquina se moverá como máximo esta distancia antes de declarar fallo.
-# Ponlo un poco mayor que el recorrido físico real de tus ejes.
-HOMING_BUSQUEDA_MAX_MM_X = 350.0
-HOMING_BUSQUEDA_MAX_MM_Y = 350.0
-
-# Velocidad de homing: la FPGA usa SYS_MOT_FREQ para todos los movimientos,
-# así que la velocidad es fija por hardware. Aquí solo definimos el timeout
-# en segundos que espera el Python antes de declarar la comunicación perdida.
-HOMING_TIMEOUT_SEG = 60.0
-
-# ==========================================
-# RESPUESTAS DE LA FPGA
-# ==========================================
-RESP_OK      = b'K'   # 0x4B - Movimiento normal completado
-RESP_HOMING  = b'H'   # 0x48 - Homing completado con éxito
-RESP_HFAIL   = b'F'   # 0x46 - Homing fallido (timeout sin encontrar final de carrera)
-RESP_ERROR   = b'E'   # 0x45 - Error de checksum
-
-# ==========================================
-# INICIALIZACIÓN
+# INICIALIZACIÓN DEL PUERTO SERIAL
 # ==========================================
 try:
     print(f"Abriendo conexión en {PUERTO_SERIAL} a {BAUDIOS} baudios...")
     ser = serial.Serial(PUERTO_SERIAL, BAUDIOS, timeout=5)
-    time.sleep(2)
+    time.sleep(2) # Esperar a que el puerto de la Basys 3 se estabilice al enchufar
     print("¡Conexión establecida con la FPGA!")
 except Exception as e:
-    print(f"Error fatal: No se pudo abrir el puerto {PUERTO_SERIAL}.")
+    print(f"Error fatal: No se pudo abrir el puerto {PUERTO_SERIAL}. ¿Está conectada la Basys3?")
     print(f"Detalle: {e}")
     exit()
 
-# Variables de estado del plotter
+# Variables de estado global del plotter (La "memoria" del PC)
 pos_x_actual_mm = 0.0
 pos_y_actual_mm = 0.0
-boli_abajo = False     # False = Arriba, True = Abajo
-homing_realizado = False
+boli_abajo = False # False = Arriba (G0 / Z>0), True = Abajo (G1 / Z<=0)
 
 # ==========================================
-# FUNCIÓN CORE: HABLAR CON LA FPGA
+# FUNCIÓN CORE: TRANSMISIÓN DE TRAMAS BINARIAS
 # ==========================================
-def _construir_trama(pasos_x, pasos_y, dir_x, dir_y, pen_down, homing=False):
-    """
-    Construye la trama de 9 bytes con checksum XOR.
-
-    Byte 0:    0xAA (SYNC)
-    Byte 1:    Flags [bit0=dir_x | bit1=dir_y | bit2=pen | bit3=homing]
-    Byte 2-3:  Pasos X (16-bit Big Endian)
-    Byte 4-5:  Pasos Y (16-bit Big Endian)
-    Byte 6-7:  Padding 0x00
-    Byte 8:    Checksum XOR (bytes 0-7)
-    """
-    byte0 = 0xAA
-    b_dir_x  = 1 if dir_x    else 0
-    b_dir_y  = 1 if dir_y    else 0
-    b_pen    = 1 if pen_down  else 0
-    b_homing = 1 if homing   else 0
+def enviar_comando_fpga(pasos_x, pasos_y, dir_x, dir_y, pen_down, is_homing=False):
+    """Construye la trama exacta de 9 bytes que espera tu FSM_Main.vhd,
+    calcula el Checksum XOR y espera la respuesta 'K' (0x4B) de éxito."""
+    
+    byte0 = 0xAA # Byte de Sincronismo (SYNC)
+    
+    # Banderas de control en Byte 1: bit 0(Dir X), bit 1(Dir Y), bit 2(Pen), bit 3(Homing)
+    b_dir_x  = 1 if dir_x else 0
+    b_dir_y  = 1 if dir_y else 0
+    b_pen    = 1 if pen_down else 0
+    b_homing = 1 if is_homing else 0
+    
+    # Aplicamos operadores bit a bit (OR y Shift) para fusionar los bits en un solo byte
     byte1 = b_dir_x | (b_dir_y << 1) | (b_pen << 2) | (b_homing << 3)
-
-    byte2 = (pasos_x >> 8) & 0xFF
-    byte3 =  pasos_x       & 0xFF
-    byte4 = (pasos_y >> 8) & 0xFF
-    byte5 =  pasos_y       & 0xFF
+    
+    # Descomposición de Pasos a 16-bits (Formato Big Endian)
+    byte2 = (pasos_x >> 8) & 0xFF # MSB Eje X
+    byte3 = pasos_x & 0xFF        # LSB Eje X
+    byte4 = (pasos_y >> 8) & 0xFF # MSB Eje Y
+    byte5 = pasos_y & 0xFF        # LSB Eje Y
+    
+    # Bytes de relleno (Padding)
     byte6 = 0x00
     byte7 = 0x00
-
+    
+    # Empaquetado y cálculo del Checksum mediante operación XOR sucesiva
     trama = [byte0, byte1, byte2, byte3, byte4, byte5, byte6, byte7]
     checksum = 0
     for b in trama:
         checksum ^= b
-    trama.append(checksum)
-    return bytes(trama)
-
-
-def _esperar_respuesta(timeout_seg=10.0):
-    """
-    Espera un byte de respuesta de la FPGA.
-    Devuelve el byte recibido o None si hay timeout.
-    """
-    ser.timeout = timeout_seg
-    respuesta = ser.read(1)
-    ser.timeout = 5  # Restaurar timeout por defecto
-    if len(respuesta) == 0:
-        print("ERROR: Timeout esperando respuesta de la FPGA.")
-        return None
-    return respuesta
-
-
-def enviar_comando_fpga(pasos_x, pasos_y, dir_x, dir_y, pen_down):
-    """Envía un movimiento normal y espera la confirmación 'K'."""
-    trama = _construir_trama(pasos_x, pasos_y, dir_x, dir_y, pen_down, homing=False)
-    ser.write(trama)
+    trama.append(checksum) # El noveno byte es el resultado del Checksum
+    
+    # Envío físico de los 9 bytes por el bus serial
+    ser.write(bytes(trama))
     ser.flush()
-
+    
+    # Bucle de escucha esperando el retorno del token 'K' desde la FPGA
     while True:
-        respuesta = _esperar_respuesta()
-        if respuesta is None:
+        respuesta = ser.read(1)
+        if respuesta == b'K':
+            break # Comando completado con éxito por la FPGA
+        elif len(respuesta) == 0:
+            print("ERROR: Timeout esperando respuesta de la FPGA. El sistema se ha congelado.")
             break
-        if respuesta == RESP_OK:
-            break
-        elif respuesta == RESP_ERROR:
-            print("ADVERTENCIA: La FPGA reportó error de checksum. Reintentando...")
-            ser.write(trama)
-            ser.flush()
 
 # ==========================================
-# FUNCIÓN DE HOMING
+# RUTINA DE HOMING (G28)
 # ==========================================
-def hacer_homing():
-    """
-    Envía la orden de homing a la FPGA y espera la respuesta.
-
-    La FPGA moverá ambos ejes en dirección negativa (hacia los finales de carrera)
-    hasta que los detecte o hasta que se agoten los pasos de timeout.
-
-    Retorna True si el homing fue exitoso, False en caso contrario.
-    """
-    global pos_x_actual_mm, pos_y_actual_mm, boli_abajo, homing_realizado
-
-    print("=" * 50)
-    print("  INICIANDO SECUENCIA DE HOMING")
-    print("=" * 50)
-
-    # Calculamos los pasos de timeout (máximo recorrido de búsqueda)
-    timeout_pasos_x = int(HOMING_BUSQUEDA_MAX_MM_X * PASOS_POR_MM)
-    timeout_pasos_y = int(HOMING_BUSQUEDA_MAX_MM_Y * PASOS_POR_MM)
-
-    # Protección de 16 bits
-    timeout_pasos_x = min(timeout_pasos_x, 65535)
-    timeout_pasos_y = min(timeout_pasos_y, 65535)
-
-    print(f"  Timeout de búsqueda: X={timeout_pasos_x} pasos, Y={timeout_pasos_y} pasos")
-    print(f"  Distancia máxima:    X={HOMING_BUSQUEDA_MAX_MM_X} mm, Y={HOMING_BUSQUEDA_MAX_MM_Y} mm")
-    print(f"  Esperando respuesta (máx. {HOMING_TIMEOUT_SEG}s)...")
-
-    # Construimos la trama de homing:
-    # - dir_x / dir_y = False (0): dirección hacia el origen
-    # - pen_down = False: la FPGA subirá el boli antes de moverse
-    # - homing = True: activa el bit 3 del byte de flags
-    trama = _construir_trama(
-        pasos_x  = timeout_pasos_x,
-        pasos_y  = timeout_pasos_y,
-        dir_x    = False,
-        dir_y    = False,
-        pen_down = False,
-        homing   = True
-    )
-
-    ser.write(trama)
-    ser.flush()
-
-    # Esperamos la respuesta con un timeout largo (movimiento físico lento)
-    respuesta = _esperar_respuesta(timeout_seg=HOMING_TIMEOUT_SEG)
-
-    if respuesta == RESP_HOMING:
-        print("  ✓ HOMING COMPLETADO CON ÉXITO")
-        print("  La máquina está ahora en la posición de origen (0, 0).")
-        # Actualizamos el estado interno: estamos en el origen
-        pos_x_actual_mm = 0.0
-        pos_y_actual_mm = 0.0
-        boli_abajo = False
-        homing_realizado = True
-        print("=" * 50)
-        return True
-
-    elif respuesta == RESP_HFAIL:
-        print("  ✗ HOMING FALLIDO: La FPGA no encontró los finales de carrera.")
-        print("  Posibles causas:")
-        print("    - Los finales de carrera no están conectados o están mal cableados.")
-        print("    - HOMING_BUSQUEDA_MAX_MM es insuficiente para el recorrido real.")
-        print("    - La dirección de homing está invertida (revisa DIR_INVERT en tb6600_axis_driver).")
-        homing_realizado = False
-        print("=" * 50)
-        return False
-
-    elif respuesta is None:
-        print("  ✗ HOMING FALLIDO: Timeout de comunicación (sin respuesta de la FPGA).")
-        homing_realizado = False
-        print("=" * 50)
-        return False
-
-    else:
-        print(f"  ✗ HOMING FALLIDO: Respuesta inesperada: 0x{respuesta.hex()}")
-        homing_realizado = False
-        print("=" * 50)
-        return False
+def ejecutar_homing():
+    global pos_x_actual_mm, pos_y_actual_mm, boli_abajo
+    print("\n🏠 Ejecutando Homing (Buscando el origen 0,0)...")
+    
+    # 1. Levantar el boli por seguridad antes de moverse
+    if boli_abajo:
+        mover_a(pos_x_actual_mm, pos_y_actual_mm, False)
+        
+    # 2. Enviar la orden a la FPGA: -60000 pasos, is_homing activado
+    print("   -> Motores en marcha hacia los interruptores de límite...")
+    # pasos_x=60000, pasos_y=60000, dir_x=False (atrás), dir_y=False (atrás), pen=False, homing=True
+    enviar_comando_fpga(60000, 60000, False, False, False, True)
+    
+    # 3. Una vez recibida la 'K' (el choque terminó y la FPGA lo bloqueó), reseteamos las coordenadas
+    pos_x_actual_mm = 0.0
+    pos_y_actual_mm = 0.0
+    print("✅ Homing completado. Posición física sincronizada a X=0.0, Y=0.0")
 
 # ==========================================
-# FUNCIÓN DE MOVIMIENTO
+# FUNCIÓN DE PLANIFICACIÓN DE MOVIMIENTOS
 # ==========================================
 def mover_a(target_x_mm, target_y_mm, bajar_boli):
     global pos_x_actual_mm, pos_y_actual_mm, boli_abajo
-
-    # Advertencia si no se ha hecho homing
-    if not homing_realizado:
-        print("ADVERTENCIA: Moviendo sin haber hecho homing. La posición puede ser incorrecta.")
-
-    # --- 1. GESTIÓN DEL SERVO (Eje Z) ---
+    
+    # --- 1. GESTIÓN EXCLUSIVA DEL SERVO (Eje Z) ---
+    # Si detectamos un cambio en el estado del bolígrafo, enviamos una trama previa.
     if bajar_boli != boli_abajo:
-        enviar_comando_fpga(0, 0, 0, 0, bajar_boli)
-        time.sleep(0.3)
+        # ¡HACK DE INGENIERÍA!: Forzamos 1 paso en X en lugar de 0.
+        # Esto hace que el módulo Bresenham de la FPGA compute un movimiento real,
+        # active la señal 'motion_done' y libere la FSM devolviendo la 'K'.
+        enviar_comando_fpga(1, 0, True, True, bajar_boli)
+        time.sleep(1.0) # Retardo físico: tiempo para que el servo complete el giro mecánico
         boli_abajo = bajar_boli
 
-    # --- 2. CÁLCULO DE PASOS Y DIRECCIÓN ---
+    # --- 2. CÁLCULO DE DISTANCIAS Y DIRECCIÓN EN ESPACIO MÉTRICO ---
     delta_x_mm = target_x_mm - pos_x_actual_mm
     delta_y_mm = target_y_mm - pos_y_actual_mm
-
+    
+    # Conversión de milímetros a pulsos discretos (Pasos de motor)
     pasos_x = int(abs(delta_x_mm) * PASOS_POR_MM)
     pasos_y = int(abs(delta_y_mm) * PASOS_POR_MM)
-
-    dir_x = delta_x_mm >= 0
-    dir_y = delta_y_mm >= 0
-
+    
+    # Determinación del sentido de giro (True = Positivo / False = Negativo)
+    dir_x = True if delta_x_mm >= 0 else False
+    dir_y = True if delta_y_mm >= 0 else False
+    
+    # Protección contra desbordamiento de registros en el hardware (Max 16 bits = 65535)
     if pasos_x > 65535 or pasos_y > 65535:
-        print("ADVERTENCIA: Movimiento demasiado largo, truncando a 65535 pasos.")
+        print("ADVERTENCIA: Movimiento excede el límite de 16 bits, truncando a 65535 pasos.")
         pasos_x = min(pasos_x, 65535)
         pasos_y = min(pasos_y, 65535)
 
-    # --- 3. EJECUCIÓN ---
+    # --- 3. TRANSFERENCIA DE COORDENADAS DE TRACCIÓN ---
     if pasos_x > 0 or pasos_y > 0:
         enviar_comando_fpga(pasos_x, pasos_y, dir_x, dir_y, boli_abajo)
+        # Actualización de la posición virtual del sistema
         pos_x_actual_mm = target_x_mm
         pos_y_actual_mm = target_y_mm
 
 # ==========================================
-# LECTOR DE G-CODE
+# INTERPRÉTE PRO DE ARCHIVOS G-CODE
 # ==========================================
 def procesar_gcode(archivo):
-    global pos_x_actual_mm, pos_y_actual_mm
-
     if not os.path.exists(archivo):
-        print(f"No se encuentra el archivo: {archivo}")
+        print(f"❌ Error: No se encuentra el archivo {archivo}")
         return
 
-    if not homing_realizado:
-        resp = input("ADVERTENCIA: No se ha hecho homing. ¿Continuar de todos modos? (s/N): ")
-        if resp.strip().lower() != 's':
-            print("Trabajo cancelado. Haz homing primero.")
-            return
-
-    print(f"Empezando trabajo: {archivo}")
+    print(f"\n▶️ Empezando trabajo: {archivo}")
+    # Forzamos codificación UTF-8 para evitar errores con tildes y comentarios en Windows
     with open(archivo, 'r', encoding='utf-8') as f:
         lineas = f.readlines()
-
+        
     for linea in lineas:
         linea = linea.strip().upper()
         if not linea or linea.startswith(';'):
-            continue
-
-        # Eliminar comentarios inline (;)
-        if ';' in linea:
-            linea = linea[:linea.index(';')].strip()
-
+            continue # Ignorar líneas vacías y comentarios de texto
+            
         partes = linea.split()
-        if not partes:
-            continue
-
         comando = partes[0]
-
+        
+        # --- LÍNEA PARA HOMING (G28) ---
+        if comando == 'G28':
+            ejecutar_homing()
+            continue # Salta a la siguiente línea del archivo
+            
+        # Filtrado de comandos de interpolación lineal admisibles
         if comando in ['G0', 'G00', 'G1', 'G01']:
             nuevo_x = pos_x_actual_mm
             nuevo_y = pos_y_actual_mm
-
+            
+            # Comportamiento G-Code estándar: G0 levanta herramienta por defecto, G1 la baja.
+            boli_abj = True if comando in ['G1', 'G01'] else False
+            
+            # Extracción inteligente de parámetros de la línea
             for p in partes[1:]:
                 if p.startswith('X'):
-                    try:
-                        nuevo_x = float(p[1:])
-                    except ValueError:
-                        pass
+                    nuevo_x = float(p[1:])
                 elif p.startswith('Y'):
-                    try:
-                        nuevo_y = float(p[1:])
-                    except ValueError:
-                        pass
-
-            boli_abj = comando in ['G1', 'G01']
+                    nuevo_y = float(p[1:])
+                elif p.startswith('Z'):
+                    # ¡PARSER DE EJE Z ACTIVADO! 
+                    # Z > 0 es Bolígrafo Arriba (False). Z <= 0 es Bolígrafo Abajo (True)
+                    boli_abj = False if float(p[1:]) > 0 else True
+            
+            # Ejecutar el bloque de movimiento coordinado
             mover_a(nuevo_x, nuevo_y, boli_abj)
-
-        elif comando in ['G28']:
-            # G28 en G-Code estándar = ir a origen (homing)
-            print("G-Code G28 detectado: ejecutando homing...")
-            hacer_homing()
+            
+    print(f"🏁 Trabajo '{archivo}' finalizado con éxito.")
 
 # ==========================================
-# RUTINA PRINCIPAL
+# BLOQUE PRINCIPAL DE EJECUCIÓN (MENÚ INTERACTIVO)
 # ==========================================
 if __name__ == '__main__':
     try:
-        # ------------------------------------------------------------------
-        # PASO 1: HOMING (siempre recomendado al arrancar)
-        # ------------------------------------------------------------------
-        exito = hacer_homing()
+        while True:
+            print("\n" + "="*50)
+            print(" MENÚ DE CONTROL CNC / PLOTTER FPGA 🛠️")
+            print("="*50)
+            print("1. Ejecutar prueba de motores (ejeXY_prueba.gcode)")
+            print("2. Ejecutar prueba de servo   (test_servo.gcode)")
+            print("3. Ejecutar prueba circulo    (circulo.gcode)")
+            print("4. Hacer Homing (Ir al origen 0,0)")
+            print("5. Salir y desconectar máquina")
+            print("="*50)
+            
+            opcion = input("Elige una opción (1-5): ").strip()
+            
+            if opcion == '1':
+                procesar_gcode("ejeXY_prueba.gcode")
+            
+            elif opcion == '2':
+                procesar_gcode("test_servo.gcode")
 
-        if not exito:
-            print("\nHoming fallido. Comprueba los finales de carrera y vuelve a intentarlo.")
-            print("Puedes continuar sin homing, pero la posición no será fiable.")
-            respuesta = input("¿Continuar sin homing? (s/N): ")
-            if respuesta.strip().lower() != 's':
-                raise SystemExit("Trabajo abortado.")
-
-        # ------------------------------------------------------------------
-        # PASO 2: TRABAJO (descomenta la línea que necesites)
-        # ------------------------------------------------------------------
-
-        # Opción A: Ejecutar un archivo G-Code
-        procesar_gcode("ejeXY_prueba.gcode")
-
-        # Opción B: Movimientos manuales de prueba (descomenta para usar)
-        # print("Moviendo a (50, 0) con boli arriba...")
-        # mover_a(50, 0, False)
-        # print("Moviendo a (50, 50) con boli abajo...")
-        # mover_a(50, 50, True)
-        # print("Volviendo al origen con boli arriba...")
-        # mover_a(0, 0, False)
+            elif opcion == '3':
+                procesar_gcode("circulo.gcode")
+            
+            elif opcion == '4':
+                ejecutar_homing()
+            
+            elif opcion == '5':
+                print("Saliendo del programa...")
+                break # Rompe el bucle y va directo al bloque 'finally'
+            
+            else:
+                print("Opción no válida. Por favor, elige un número del 1 al 6.")
 
     except KeyboardInterrupt:
-        print("\nTrabajo abortado por el usuario (Ctrl+C).")
+        print("\n Trabajo abortado de emergencia por el usuario (Ctrl+C).")
+        # Medida de protección: Levanta el bolígrafo inmediatamente al cancelar
         mover_a(pos_x_actual_mm, pos_y_actual_mm, False)
-
+        
     finally:
-        ser.close()
-        print("Puerto serial cerrado.")
+        # Asegurarnos de que el puerto se cierra de forma segura al salir
+        if 'ser' in locals() and ser.is_open:
+            ser.close()
+            print("Puerto serial cerrado correctamente.")

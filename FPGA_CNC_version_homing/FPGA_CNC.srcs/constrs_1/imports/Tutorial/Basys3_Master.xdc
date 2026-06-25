@@ -44,8 +44,8 @@ set_property PACKAGE_PIN W5 [get_ports clk]
  
 
 ## LEDs
-#set_property PACKAGE_PIN U16 [get_ports {led[0]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+#set_property PACKAGE_PIN U16 [get_ports led_state]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports led_state]
 #set_property PACKAGE_PIN E19 [get_ports {led[1]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
 #set_property PACKAGE_PIN U19 [get_ports {led[2]}]					
@@ -179,8 +179,8 @@ set_property PACKAGE_PIN A16 [get_ports dir_y]
 
 ##Pmod Header JC
 ##Sch name = JC1
-set_property PACKAGE_PIN K17 [get_ports servo_pwm]					
-	set_property IOSTANDARD LVCMOS33 [get_ports servo_pwm]
+#set_property PACKAGE_PIN K17 [get_ports servo_pwm]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports servo_pwm]
 ##Sch name = JC2
 set_property PACKAGE_PIN M18 [get_ports limit_x]					
 	set_property IOSTANDARD LVCMOS33 [get_ports limit_x]
@@ -188,8 +188,8 @@ set_property PACKAGE_PIN M18 [get_ports limit_x]
 set_property PACKAGE_PIN N17 [get_ports limit_y]					
 	set_property IOSTANDARD LVCMOS33 [get_ports limit_y]
 ##Sch name = JC4
-#set_property PACKAGE_PIN P18 [get_ports {JC[3]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JC[3]}]
+#set_property PACKAGE_PIN P18 [get_ports servo_pwm]					
+	#set_property IOSTANDARD LVCMOS33 [get_ports servo_pwm]
 ##Sch name = JC7
 #set_property PACKAGE_PIN L17 [get_ports {JC[4]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JC[4]}]
@@ -206,8 +206,8 @@ set_property PACKAGE_PIN N17 [get_ports limit_y]
 
 ##Pmod Header JXADC
 ##Sch name = XA1_P
-#set_property PACKAGE_PIN J3 [get_ports {JXADC[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JXADC[0]}]
+set_property PACKAGE_PIN J3 [get_ports servo_pwm]				
+	set_property IOSTANDARD LVCMOS33 [get_ports servo_pwm]
 ##Sch name = XA2_P
 #set_property PACKAGE_PIN L3 [get_ports {JXADC[1]}]				
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JXADC[1]}]

@@ -6,8 +6,8 @@ entity pen_controller is
     Generic (
         CLK_FREQ_HZ   : integer := 100000000;
         PWM_HZ        : integer := 50; 
-        PULSE_UP_US   : integer := 1000;
-        PULSE_DOWN_US : integer := 2000
+        PULSE_UP_US   : integer := 500;
+        PULSE_DOWN_US : integer := 2500
     );
     Port (
         clk          : in  STD_LOGIC;
